@@ -153,34 +153,44 @@ class PopcornArchiver(object):
 
     def __removeNoParticipation(self, link=None, links=None):
         """
-        Turns NP links into regular www links.
+        Turns NP links into regular www links. Takes a parameter: either a string
+        with a single link or a list with multiple links in it. Returns either a
+        string with the link or a list with the new links.
         """
 
         if links is not None:
-            for link in links:
-                # so that the archives will be listed in order of appearance later
-                position = links.index(link)
+            if type(links) is list:
+                for link in links:
+                    # so that the archives will be listed in order of appearance later
+                    position = links.index(link)
 
-                if "np.reddit.com" in link:
-                    links.remove(link)
-                    link = link.replace("np.reddit.com", "www.reddit.com")
-                    links.insert(position, link)
+                    if "np.reddit.com" in link:
+                        links.remove(link)
+                        link = link.replace("np.reddit.com", "www.reddit.com")
+                        links.insert(position, link)
 
-                if "www.np.reddit.com" in link:
-                    links.remove(link)
-                    link = link.replace("www.np.reddit.com")
-                    links.insert(position, link)
+                    if "www.np.reddit.com" in link:
+                        links.remove(link)
+                        link = link.replace("www.np.reddit.com")
+                        links.insert(position, link)
 
-            return links
+                return links
+
+            else:
+                raise TypeError("Parameter \"links\" must be a list.")
 
         if link is not None:
-            if "np.reddit.com" in link:
-                link = link.replace("np.reddit.com", "www.reddit.com")
+            if type(link) is str:
+                if "np.reddit.com" in link:
+                    link = link.replace("np.reddit.com", "www.reddit.com")
 
-            if "www.np.reddit.com" in link:
-                link = link.replace("www.np.reddit.com", "www.reddit.com")
+                if "www.np.reddit.com" in link:
+                    link = link.replace("www.np.reddit.com", "www.reddit.com")
 
-            return link
+                return link
+
+            else:
+                raise TypeError("Parameter \"link\" must be a string.")
 
         
     def getArchiveToday(self, links):
