@@ -141,3 +141,21 @@ def main():
 
             archived_links = {}
             links = get_reddit_urls(submission)
+
+            if links is not None:
+                for link in links:
+                    archive_today = get_archive_today(link)
+                    # uses a list in case multiple archive services are desireable.
+                    archived_links[link] = [archive_today]
+
+                text = format_comment(archived_links)
+                submit_comment(submission, text)
+
+            cur.execute("INSERT INTO submissions VALUES(?)", (permalink,))
+            con.commit()
+
+            sleep(60)
+
+
+if __name__ == "__main__":
+    main()
