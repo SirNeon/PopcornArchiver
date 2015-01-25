@@ -137,6 +137,7 @@ def main():
             cur.execute("SELECT permalink FROM submissions WHERE permalink=?", (permalink,))
             
             if(cur.fetchone() != None):
+                sleep(1)
                 continue
 
             archived_links = {}
